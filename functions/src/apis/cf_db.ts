@@ -89,7 +89,17 @@ export const postRankingToSlack = functions.https.onRequest(
         ).sort((prevPosting: any, nextPosting: any) => {
           return nextPosting.reactionsNum - prevPosting.reactionsNum;
         });
-        const text = `1位: ${sortedpostingObjs[0].description}…${sortedpostingObjs[0].reactionsNum}票\n2位: ${sortedpostingObjs[1].description}…${sortedpostingObjs[1].reactionsNum}票\n3位: ${sortedpostingObjs[2].description}…${sortedpostingObjs[2].reactionsNum}票\n`;
+        const text = `1位: \`${sortedpostingObjs[0].description}\`…${
+          sortedpostingObjs[0].reactionsNum
+        }票（${sortedpostingObjs[0].postingType.toUpperCase()}）\n2位: \`${
+          sortedpostingObjs[1].description
+        }\`…${
+          sortedpostingObjs[1].reactionsNum
+        }票（${sortedpostingObjs[1].postingType.toUpperCase()}）\n3位: \`${
+          sortedpostingObjs[2].description
+        }\`…${
+          sortedpostingObjs[2].reactionsNum
+        }票（${sortedpostingObjs[2].postingType.toUpperCase()}）`;
         const payload = {
           channel: "inner-meetup",
           username: "いま人気のある勉強会はこちら！",
