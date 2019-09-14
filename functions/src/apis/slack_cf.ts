@@ -100,28 +100,32 @@ export const reaction = functions.https.onRequest(async (req, res) => {
       throw { status: 404, code: "Post not found" };
     }
     const message = postInfo.messages[0];
-    const _msgs = message.split('興味のある方はreactionをお願いします～\n');
-    if (_msgs.length <= 1) throw { msg: "invalid message" }
-    const postingId = _msgs[1]
-    const reactionsNum =  (message.reactions || []).reduce((count: number, el: any) => {
+    const _msgs = message.split("興味のある方はreactionをお願いします～\n");
+    if (_msgs.length <= 1) throw { msg: "invalid message" };
+    const postingId = _msgs[1];
+    const reactionsNum = (message.reactions || []).reduce(
+      (count: number, el: any) => {
         return count + el.count;
-      }, 0);
-    await rp({
-      method: "POST",
-      uri: " https://us-central1-inner-meetup.cloudfunctions.net/updatePosting",
-      body: {
-        postingId, // 投稿のID（tsと同じでよき）
-        reactionsNum, // reactionの数
       },
-      json: true // Automatically stringifies the body to JSON
-    });
+      0
+    );
+
     await rp({
       method: "POST",
       uri:
         "https://hooks.slack.com/services/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",
       body: {
         response_type: "in_channel", // "in_channel"
-        text: JSON.stringify({ reactionsNum, postInfo })
+        text: JSON.stringify({ reactionsNum, postInfo, _msgs })
+      },
+      json: true // Automatically stringifies the body to JSON
+    });
+    await rp({
+      method: "POST",
+      uri: " https://us-central1-inner-meetup.cloudfunctions.net/updatePosting",
+      body: {
+        postingId, // 投稿のID（tsと同じでよき）
+        reactionsNum // reactionの数
       },
       json: true // Automatically stringifies the body to JSON
     });
@@ -132,7 +136,7 @@ export const reaction = functions.https.onRequest(async (req, res) => {
         "https://hooks.slack.com/services/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",
       body: {
         response_type: "in_channel", // "in_channel"
-        text: JSON.stringify(err)
+        text: JSON.stringify({ err: err })
       },
       json: true // Automatically stringifies the body to JSON
     });
