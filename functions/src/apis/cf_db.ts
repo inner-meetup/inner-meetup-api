@@ -76,7 +76,6 @@ export const postRankingToSlack = functions.https.onRequest(
       .once("value")
       .then(async function(snapshot) {
         const postings = snapshot.val() || {};
-        console.log("searchedPosting", Object.keys(postings));
         const postingObjs = await Promise.all(
           Object.keys(postings).map(async (_posting: string) => {
             const postingObj = await db
@@ -85,18 +84,17 @@ export const postRankingToSlack = functions.https.onRequest(
             return postingObj;
           })
         );
-        // const sortedpostingObjs = postingObjs.sort(
-        //   (prevPosting: any, nextPosting: any) => {
-        //     return prevPosting.reactionsNum - nextPosting.reactionsNum;
-        //   }
-        // );
-        console.log("postingObjs", postingObjs);
-        const text = `JSON.stringify(payload)`;
+        const sortedpostingObjs: any = JSON.parse(
+          JSON.stringify(postingObjs)
+        ).sort((prevPosting: any, nextPosting: any) => {
+          return nextPosting.reactionsNum - prevPosting.reactionsNum;
+        });
+        const text = `1位: ${sortedpostingObjs[0].description}…${sortedpostingObjs[0].reactionsNum}票\n2位: ${sortedpostingObjs[1].description}…${sortedpostingObjs[1].reactionsNum}票\n3位: ${sortedpostingObjs[2].description}…${sortedpostingObjs[2].reactionsNum}票\n`;
         const payload = {
           channel: "inner-meetup",
-          username: "人気のある勉強会はこちら！",
+          username: "いま人気のある勉強会はこちら！",
           text,
-          icon_emoji: ":man-bowing::skin-tone-6:"
+          icon_emoji: ":man_dancing:"
         };
         await rp({
           uri:
