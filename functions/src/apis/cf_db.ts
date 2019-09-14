@@ -38,7 +38,7 @@ export const posting = functions.https.onRequest(
       .catch(err => {
         console.log("err", err);
       });
-    response.send("Hello from Firebase!");
+    response.send("New Posting Created");
   }
 );
 
