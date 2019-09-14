@@ -10,7 +10,7 @@ const db = firebase.database();
 
 export const posting = functions.https.onRequest(
   async (request: any, response: any) => {
-    try {
+    // try {
 
     const {
       postingId,
@@ -37,10 +37,10 @@ export const posting = functions.https.onRequest(
       });
     response.send("Hello from Firebase!");
     
-  } catch (err) {
+  // } catch (err) {
       
-    response.send(JSON.stringify(err));
-  }
+  //   response.send(JSON.stringify(err));
+  // }
   }
 );
 
@@ -85,11 +85,11 @@ export const postRankingToSlack = functions.https.onRequest(
             return postingObj;
           })
         );
-        const sortedpostingObjs = postingObjs.sort(
-          (prevPosting: any, nextPosting: any) => {
-            return prevPosting.reactionsNum - nextPosting.reactionsNum;
-          }
-        );
+        // const sortedpostingObjs = postingObjs.sort(
+        //   (prevPosting: any, nextPosting: any) => {
+        //     return prevPosting.reactionsNum - nextPosting.reactionsNum;
+        //   }
+        // );
         console.log("postingObjs", postingObjs);
         const text = `JSON.stringify(payload)`;
         const payload = {

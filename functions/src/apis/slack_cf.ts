@@ -34,6 +34,7 @@ export const addMeetup = functions.https.onRequest(async (req, res) => {
 
     const postingId = shortid.generate();
     // 実際に登録する
+    let debug = "ok";
     try {
       await rp({
         method: "POST",
@@ -49,6 +50,7 @@ export const addMeetup = functions.https.onRequest(async (req, res) => {
       });
     } catch (err) {
       // 失敗した旨を通知
+      debug = JSON.stringify(err);
       res.send({
         response_type: "ephemeral",
         text: `*エラーが発生したようです*\n${JSON.stringify(err)}`
@@ -61,9 +63,10 @@ export const addMeetup = functions.https.onRequest(async (req, res) => {
 \`立案者:\` ${userSlackName}
 \`種別:\` ${postingType}
 \`内容:\` ${description}
-
+${debug}
 興味のある方はreactionをお願いします～
 ${postingId}
+
     `;
     res.send({
       response_type: "in_channel",
@@ -129,7 +132,7 @@ export const reaction = functions.https.onRequest(async (req, res) => {
         "https://hooks.slack.com/services/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",
       body: {
         response_type: "in_channel", // "in_channel"
-        text: JSON.stringify({ err })
+        text: JSON.stringify(err)
       },
       json: true // Automatically stringifies the body to JSON
     });
