@@ -122,7 +122,7 @@ export const reaction = functions.https.onRequest(async (req, res) => {
     });
     await rp({
       method: "POST",
-      uri: " https://us-central1-inner-meetup.cloudfunctions.net/updatePosting",
+      uri: "https://us-central1-inner-meetup.cloudfunctions.net/updatePosting",
       body: {
         postingId, // 投稿のID（tsと同じでよき）
         reactionsNum // reactionの数
