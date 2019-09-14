@@ -4,7 +4,7 @@ import * as rp from "request-promise";
 import * as shortid from "shortid";
 import { WebClient } from "@slack/client";
 const accessToken =
-  "xoxp-748777362451-753838114625-762107818471-95fe22b54efcf0b55a2a3b48b5de8b75";
+  "xoxp-748777362451-753838114625-748837118531-d39ff1daf9ee981bcfce6e2dac131a0f";
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
@@ -40,7 +40,7 @@ export const addMeetup = functions.https.onRequest(async (req, res) => {
         method: "POST",
         uri: " https://us-central1-inner-meetup.cloudfunctions.net/posting",
         body: {
-          postingId: shortid.generate(), // 投稿のID（tsと同じでよき）
+          postingId, // 投稿のID（tsと同じでよき）
           description, // 投稿内容
           postingType, // give/take
           userId: user_id, // 投稿したひとのSlackID
@@ -61,7 +61,7 @@ export const addMeetup = functions.https.onRequest(async (req, res) => {
     const resText = `
 *勉強会が申し込まれました！* 
 \`立案者:\` ${userSlackName}
-\`種別:\` ${postingType}
+\`種別:\` ${postingType === "give" ? "やりたい" : "やってほしい"}
 \`内容:\` ${description}
 ${debug}
 興味のある方はreactionをお願いします～
