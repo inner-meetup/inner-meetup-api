@@ -6,3 +6,7 @@ import * as functions from 'firebase-functions';
 export const slashcommand = functions.https.onRequest((request, response) => {
  response.send("Hello from Firebase!");
 });
+
+export const slashcommand2 = functions.https.onRequest((request, response) => {
+  response.send("Hello from Firebase!");
+ });
