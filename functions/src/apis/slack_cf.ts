@@ -100,18 +100,21 @@ export const reaction = functions.https.onRequest(async (req, res) => {
       throw { status: 404, code: "Post not found" };
     }
     const message = postInfo.messages[0];
-    const _msgs = message.split('興味のある方はreactionをお願いします～\n');
-    if (_msgs.length <= 1) throw { msg: "invalid message" }
-    const postingId = _msgs[1]
-    const reactionsNum =  (message.reactions || []).reduce((count: number, el: any) => {
+    const _msgs = message.split("興味のある方はreactionをお願いします～\n");
+    if (_msgs.length <= 1) throw { msg: "invalid message" };
+    const postingId = _msgs[1];
+    const reactionsNum = (message.reactions || []).reduce(
+      (count: number, el: any) => {
         return count + el.count;
-      }, 0);
+      },
+      0
+    );
     await rp({
       method: "POST",
       uri: " https://us-central1-inner-meetup.cloudfunctions.net/updatePosting",
       body: {
         postingId, // 投稿のID（tsと同じでよき）
-        reactionsNum, // reactionの数
+        reactionsNum // reactionの数
       },
       json: true // Automatically stringifies the body to JSON
     });

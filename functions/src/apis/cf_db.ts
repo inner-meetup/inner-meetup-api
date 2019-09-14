@@ -36,11 +36,11 @@ export const posting = functions.https.onRequest(
         console.log("err", err);
       });
     response.send("Hello from Firebase!");
-    
-  // } catch (err) {
-      
-  //   response.send(JSON.stringify(err));
-  // }
+
+    // } catch (err) {
+
+    //   response.send(JSON.stringify(err));
+    // }
   }
 );
 
@@ -57,6 +57,7 @@ export const updatePosting = functions.https.onRequest(
           channel: searchedPosting.channel,
           description: searchedPosting.description,
           postingType: searchedPosting.postingType,
+          userId: searchedPosting.userId,
           reactionsNum
         };
         db.ref().update(updates);
@@ -91,15 +92,17 @@ export const postRankingToSlack = functions.https.onRequest(
         });
         const text = `1位: \`${sortedpostingObjs[0].description}\`…${
           sortedpostingObjs[0].reactionsNum
-        }票（${sortedpostingObjs[0].postingType.toUpperCase()}）\n2位: \`${
+        }票（<@${
+          sortedpostingObjs[0].userId
+        }>${sortedpostingObjs[0].postingType.toUpperCase()}）\n2位: \`${
           sortedpostingObjs[1].description
-        }\`…${
-          sortedpostingObjs[1].reactionsNum
-        }票（${sortedpostingObjs[1].postingType.toUpperCase()}）\n3位: \`${
+        }\`…${sortedpostingObjs[1].reactionsNum}票（<@${
+          sortedpostingObjs[1].userId
+        }>${sortedpostingObjs[1].postingType.toUpperCase()}）\n3位: \`${
           sortedpostingObjs[2].description
-        }\`…${
-          sortedpostingObjs[2].reactionsNum
-        }票（${sortedpostingObjs[2].postingType.toUpperCase()}）`;
+        }\`…${sortedpostingObjs[2].reactionsNum}票（<@${
+          sortedpostingObjs[2].userId
+        }>${sortedpostingObjs[2].postingType.toUpperCase()}）`;
         const payload = {
           channel: "inner-meetup",
           username: "いま人気のある勉強会はこちら！",
