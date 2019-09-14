@@ -93,11 +93,11 @@ export const postRankingToSlack = functions.https.onRequest(
         function message(type: string) {
           switch (type) {
             case "take":
-              return "がやってほしそうです";
+              return "が教えられたいそうです";
             case "give":
-              return "がやりたそうです";
+              return "が教えたいそうです";
             default:
-              return "がやってほしそうです";
+              return "が教えられたいそうです";
           }
         }
         const text = `1位: \`${sortedpostingObjs[0].description}\`…${
