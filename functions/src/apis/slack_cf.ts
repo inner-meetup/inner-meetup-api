@@ -4,7 +4,7 @@ import * as rp from "request-promise";
 import * as shortid from "shortid";
 import { WebClient } from "@slack/client";
 const accessToken =
-  "xoxp-748777362451-753838114625-748837118531-d39ff1daf9ee981bcfce6e2dac131a0f";
+  "";
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
@@ -120,15 +120,15 @@ export const reaction = functions.https.onRequest(async (req, res) => {
       },
       json: true // Automatically stringifies the body to JSON
     });
-    await rp({
-      method: "POST",
-      uri: "https://us-central1-inner-meetup.cloudfunctions.net/updatePosting",
-      body: {
-        postingId, // 投稿のID（tsと同じでよき）
-        reactionsNum // reactionの数
-      },
-      json: true // Automatically stringifies the body to JSON
-    });
+    // await rp({
+    //   method: "POST",
+    //   uri: "https://us-central1-inner-meetup.cloudfunctions.net/updatePosting",
+    //   body: {
+    //     postingId, // 投稿のID（tsと同じでよき）
+    //     reactionsNum // reactionの数
+    //   },
+    //   json: true // Automatically stringifies the body to JSON
+    // });
   } catch (err) {
     await rp({
       method: "POST",
