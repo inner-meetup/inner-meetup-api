@@ -67,6 +67,6 @@ ${JSON.stringify(req.body)}
   });
 });
 
-export const addMeetup2 = functions.https.onRequest((request, response) => {
-  response.send("Hello from Firebase!");
-});
+// export const addMeetup2 = functions.https.onRequest((request, response) => {
+//   response.send("Hello from Firebase!");
+// });
