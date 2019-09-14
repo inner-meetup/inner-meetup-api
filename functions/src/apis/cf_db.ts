@@ -13,6 +13,8 @@ export const helloWorld = functions.https.onRequest((request, response) => {
 
 export const posting = functions.https.onRequest(
   async (request: any, response: any) => {
+    try {
+
     const {
       postingId,
       description,
@@ -41,6 +43,11 @@ export const posting = functions.https.onRequest(
         console.log("err", err);
       });
     response.send("Hello from Firebase!");
+    
+  } catch (err) {
+      
+    response.send(JSON.stringify(err));
+  }
   }
 );
 

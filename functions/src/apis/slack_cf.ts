@@ -32,7 +32,6 @@ export const addMeetup = functions.https.onRequest(async (req, res) => {
       return;
     }
 
-
     const postingId = shortid.generate();
     // 実際に登録する
     try {
