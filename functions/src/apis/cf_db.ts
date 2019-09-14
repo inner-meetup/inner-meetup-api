@@ -90,19 +90,29 @@ export const postRankingToSlack = functions.https.onRequest(
         ).sort((prevPosting: any, nextPosting: any) => {
           return nextPosting.reactionsNum - prevPosting.reactionsNum;
         });
+        function message(type: string) {
+          switch (type) {
+            case "take":
+              return "がやってほしそうです";
+            case "give":
+              return "がやりたそうです";
+            default:
+              return "がやってほしそうです";
+          }
+        }
         const text = `1位: \`${sortedpostingObjs[0].description}\`…${
           sortedpostingObjs[0].reactionsNum
-        }票（<@${
-          sortedpostingObjs[0].userId
-        }>${sortedpostingObjs[0].postingType.toUpperCase()}）\n2位: \`${
-          sortedpostingObjs[1].description
-        }\`…${sortedpostingObjs[1].reactionsNum}票（<@${
-          sortedpostingObjs[1].userId
-        }>${sortedpostingObjs[1].postingType.toUpperCase()}）\n3位: \`${
-          sortedpostingObjs[2].description
-        }\`…${sortedpostingObjs[2].reactionsNum}票（<@${
-          sortedpostingObjs[2].userId
-        }>${sortedpostingObjs[2].postingType.toUpperCase()}）`;
+        }票（<@${sortedpostingObjs[0].userId}>${message(
+          sortedpostingObjs[0].postingType
+        )}）\n2位: \`${sortedpostingObjs[1].description}\`…${
+          sortedpostingObjs[1].reactionsNum
+        }票（<@${sortedpostingObjs[1].userId}>${message(
+          sortedpostingObjs[1].postingType
+        )}）\n3位: \`${sortedpostingObjs[2].description}\`…${
+          sortedpostingObjs[2].reactionsNum
+        }票（<@${sortedpostingObjs[2].userId}>${message(
+          sortedpostingObjs[2].postingType
+        )}）`;
         const payload = {
           channel: "inner-meetup",
           username: "いま人気のある勉強会はこちら！",
