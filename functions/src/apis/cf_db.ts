@@ -59,7 +59,11 @@ export const updatePosting = functions.https.onRequest(
           reactionsNum
         };
         db.ref().update(updates);
+      })
+      .catch(function(err) {
+        response.status(404);
+        response.send("Posting not found");
       });
-    response.send("Hello from Firebase!");
+    response.send("Posting Updated");
   }
 );
