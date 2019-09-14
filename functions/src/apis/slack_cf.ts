@@ -67,6 +67,33 @@ ${JSON.stringify(req.body)}
   });
 });
 
-// export const addMeetup2 = functions.https.onRequest((request, response) => {
-//   response.send("Hello from Firebase!");
-// });
+export const reaction = functions.https.onRequest(async (req, res) => {
+  
+  await rp({
+    method: "POST",
+    uri:
+      "https://hooks.slack.com/services/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",
+    body: {
+      response_type: "in_channel", // "in_channel"
+      text: JSON.stringify(req.body),
+      // attachments: [
+      //   {
+      //     text: '',
+      //     callback_id: "invite",
+      //     actions: [
+      //       {
+      //         name: userName,
+      //         text: "仕事を依頼する",
+      //         type: "button",
+      //         style: "danger",
+      //         value: userId
+      //       }
+      //     ]
+      //   }
+      // ],
+    },
+    json: true // Automatically stringifies the body to JSON
+  });
+  
+  res.send("Hello from Firebase!");
+});
