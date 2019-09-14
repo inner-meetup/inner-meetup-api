@@ -11,9 +11,12 @@ export const helloWorld = functions.https.onRequest((request, response) => {
 
 export const posting = functions.https.onRequest((request, response) => {
   const db = firebase.database();
-  console.log("request", request);
   db.ref("users/" + "a").set({
     username: "userId"
+  }).then((_res: any) => {
+    console.log(_res)
+  }).catch((err: any) => {
+    console.log(err);
   });
   response.send("Hello from Firebase!");
 });
