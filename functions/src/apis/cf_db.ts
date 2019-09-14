@@ -30,7 +30,7 @@ export const posting = functions.https.onRequest(
         userId,
         channel,
         ts,
-        reactions: []
+        reactionsNum: 0
       })
       .then(res => {
         console.log("res", res);
@@ -42,6 +42,24 @@ export const posting = functions.https.onRequest(
   }
 );
 
-export const updatePosting = functions.https.onRequest((request, response) => {
-  response.send("Hello from Firebase!");
-});
+export const updatePosting = functions.https.onRequest(
+  async (request: any, response: any) => {
+    const { postingId, reactionsNum } = request.body;
+    await db
+      .ref("postings/" + postingId)
+      .once("value")
+      .then(function(snapshot) {
+        const searchedPosting = snapshot.val() || {};
+        const updates: any = {};
+        updates["/postings/" + postingId] = {
+          channel: searchedPosting.channel,
+          description: searchedPosting.description,
+          postingType: searchedPosting.postingType,
+          ts: searchedPosting.ts,
+          reactionsNum
+        };
+        db.ref().update(updates);
+      });
+    response.send("Hello from Firebase!");
+  }
+);
