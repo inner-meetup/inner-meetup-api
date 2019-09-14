@@ -5,7 +5,7 @@ import "firebase/auth";
 import "firebase/database";
 
 firebase.initializeApp(firebaseConfig);
-// Get a reference to the database service
+const db = firebase.database();
 
 export const helloWorld = functions.https.onRequest((request, response) => {
   response.send("Hello from Firebase!");
@@ -22,11 +22,9 @@ export const posting = functions.https.onRequest(
       ts
     } = request.body;
 
-    const db = firebase.database();
     await db
-      .ref("postings/" + "posting")
+      .ref("postings/" + postingId)
       .set({
-        postingId,
         description,
         postingType,
         userId,
