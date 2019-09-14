@@ -1,4 +1,4 @@
 import { addMeetup, reaction } from "./apis/slack_cf";
-import { posting, updatePosting } from "./apis/cf_db";
+import { posting, updatePosting, postRankingToSlack } from "./apis/cf_db";
 
-export { addMeetup, reaction, posting, updatePosting };
+export { addMeetup, reaction, posting, updatePosting, postRankingToSlack };

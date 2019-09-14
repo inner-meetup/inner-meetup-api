@@ -1,15 +1,12 @@
 import * as functions from "firebase-functions";
 import * as firebase from "firebase/app";
 import { firebaseConfig } from "../config/firebase";
+import * as rp from "request-promise";
 import "firebase/auth";
 import "firebase/database";
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
-export const helloWorld = functions.https.onRequest((request, response) => {
-  response.send("Hello from Firebase!");
-});
 
 export const posting = functions.https.onRequest(
   async (request: any, response: any) => {
@@ -65,5 +62,24 @@ export const updatePosting = functions.https.onRequest(
         response.send("Posting not found");
       });
     response.send("Posting Updated");
+  }
+);
+
+export const postRankingToSlack = functions.https.onRequest(
+  async (request: any, response: any) => {
+    const text = `aaa`;
+    const payload = {
+      channel: "inner-meetup",
+      username: "人気のある勉強会はこちら！",
+      text,
+      icon_emoji: ":man-bowing::skin-tone-6:"
+    };
+    await rp({
+      uri:
+        "https://hooks.slack.com/services/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",
+      method: "POST",
+      form: `payload=${JSON.stringify(payload)}`,
+      json: true
+    });
   }
 );
