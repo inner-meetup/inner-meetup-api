@@ -114,7 +114,8 @@ export const reaction = functions.https.onRequest(async (req, res) => {
     }
     const message = postInfo.messages[0];
     tmp = 'aaa'
-    const _msgs = message.text.split("\\n");
+    tmp = JSON.stringify(message.text)
+    const _msgs = message.text.split("\n");
     if (_msgs.length <= 1) throw { msg: "invalid message" };
     const postingId = _msgs[_msgs.length - 3].replace('\\', "");
     tmp = '2'
