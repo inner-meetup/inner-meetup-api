@@ -1,0 +1,1 @@
+export const apiBaseUrl = "" // incoming webhook の url
